@@ -1,22 +1,28 @@
+import Heading from "./Heading";
+import Label from "./Label";
+import Row from "./Row";
+import Select from "./Select";
+import Wrapper from "./Wrapper";
+
 const MemoryCardSelection = () => {
   return (
-    <div>
-      <h2>Step3: Select Your Memory Card</h2>
-      <label>
-        How many?
-        <input type="number" />
-      </label>
-      <br />
-      <label>
-        Brand:
-        <select>{/* Options for memory card brands */}</select>
-      </label>
-      <br />
-      <label>
-        Model:
-        <select>{/* Options for memory card models */}</select>
-      </label>
-    </div>
+    <Wrapper typeof="local">
+      <Heading as="h2">Step3: Select Your Memory Card</Heading>
+      <Row>
+        <Label>
+          How many?
+          <input type="number" />
+        </Label>
+        <Label>
+          Brand:
+          <select>{/* Options for memory card brands */}</select>
+        </Label>
+        <Label>
+          Model:
+          <Select>{/* Options for memory card models */}</Select>
+        </Label>
+      </Row>
+    </Wrapper>
   );
 };
 

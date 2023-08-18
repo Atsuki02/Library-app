@@ -1,17 +1,24 @@
+import Heading from "./Heading";
+import Label from "./Label";
+import Row from "./Row";
+import Select from "./Select";
+import Wrapper from "./Wrapper";
+
 const GPUSelection = () => {
   return (
-    <div>
-      <h2>Step2: Select Your GPU</h2>
-      <label>
-        Brand:
-        <select>{/* Options for GPU brands */}</select>
-      </label>
-      <br />
-      <label>
-        Model:
-        <select>{/* Options for GPU models */}</select>
-      </label>
-    </div>
+    <Wrapper typeof="local">
+      <Heading as="h2">Step2: Select Your GPU</Heading>
+      <Row>
+        <Label>
+          Brand:
+          <Select>{/* Options for GPU brands */}</Select>
+        </Label>
+        <Label>
+          Model:
+          <Select>{/* Options for GPU models */}</Select>
+        </Label>
+      </Row>
+    </Wrapper>
   );
 };
 

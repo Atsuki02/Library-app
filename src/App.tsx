@@ -1,11 +1,8 @@
 import "./App.css";
 import Button from "./Button";
-import CPUselection from "./CPUselection";
-import GPUSelection from "./GPUSelection";
 import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
-import MemoryCardSelection from "./MemoryCardSelection";
-import StorageSelection from "./StorageSelection";
+import Selection from "./Selection";
 import YourPC from "./YourPC";
 
 function App() {
@@ -13,10 +10,7 @@ function App() {
     <>
       <GlobalStyles />
       <Header />
-      <CPUselection />
-      <GPUSelection />
-      <MemoryCardSelection />
-      <StorageSelection />
+      <Selection />
       <Button />
       <YourPC />
     </>
