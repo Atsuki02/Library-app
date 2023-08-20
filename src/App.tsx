@@ -6,27 +6,43 @@ import Header from "./Header";
 import Selection from "./Selection";
 import YourPC from "./YourPC";
 
-export type CPU = {
+export type Cpu = {
   Type: string;
   PartNumber: string;
   Brand: string;
   Model: string;
-  Rank: string;
+  Rank: number;
   Benchmark: number;
 };
 
-export type CPUSelectionProps = {
-  data: CPU[];
+export type Gpu = Cpu;
+export type Memory = Cpu;
+
+export type Props = {
+  CpuData: Cpu[];
+  GpuData: Gpu[];
+  MemoryData: Memory[];
 };
 
 function App() {
-  const [data, setData] = useState<CPU[]>([]);
+  const [CpuData, setCpuData] = useState<Cpu[]>([]);
+  const [GpuData, setGpuData] = useState<Gpu[]>([]);
+  const [MemoryData, setMemoryData] = useState<Memory[]>([]);
 
   useEffect(() => {
-    fetch("https://api.recursionist.io/builder/computers?type=cpu")
-      .then((res) => res.json())
-      .then((data: CPU[]) => {
-        setData(data);
+    Promise.all([
+      fetch("https://api.recursionist.io/builder/computers?type=cpu"),
+      fetch("https://api.recursionist.io/builder/computers?type=gpu"),
+      fetch("https://api.recursionist.io/builder/computers?type=ram"),
+    ])
+      .then((responses) => Promise.all(responses.map((res) => res.json())))
+      .then(([cpuData, gpuData, memoryData]) => {
+        setCpuData(cpuData);
+        setGpuData(gpuData);
+        setMemoryData(memoryData);
+      })
+      .catch((error) => {
+        console.error("Data fetching error:", error);
       });
   }, []);
 
@@ -34,7 +50,7 @@ function App() {
     <>
       <GlobalStyles />
       <Header />
-      <Selection data={data} />
+      <Selection CpuData={CpuData} GpuData={GpuData} MemoryData={MemoryData} />
       <Button />
       <YourPC />
     </>

@@ -1,16 +1,28 @@
-import { CPUSelectionProps } from "./App";
+import { Props } from "./App";
 import CPUSelection from "./CPUselection";
 import GPUSelection from "./GPUSelection";
 import MemoryCardSelection from "./MemoryCardSelection";
 import StorageSelection from "./StorageSelection";
 import Wrapper from "./Wrapper";
 
-const Selection = ({ data }: CPUSelectionProps) => {
+const Selection = ({ CpuData, GpuData, MemoryData }: Props) => {
   return (
     <Wrapper typeof="global">
-      <CPUSelection data={data} />
-      <GPUSelection />
-      <MemoryCardSelection />
+      <CPUSelection
+        CpuData={CpuData}
+        GpuData={GpuData}
+        MemoryData={MemoryData}
+      />
+      <GPUSelection
+        GpuData={GpuData}
+        CpuData={CpuData}
+        MemoryData={MemoryData}
+      />
+      <MemoryCardSelection
+        CpuData={CpuData}
+        GpuData={GpuData}
+        MemoryData={MemoryData}
+      />
       <StorageSelection />
     </Wrapper>
   );
