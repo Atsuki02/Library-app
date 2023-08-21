@@ -4,15 +4,49 @@ import Label from "./Label";
 import Row from "./Row";
 import Select from "./Select";
 import Wrapper from "./Wrapper";
-import { useState } from "react";
+import { useReducer } from "react";
+
+type State = {
+  brand: string;
+  model: string;
+};
+
+type Action =
+  | { type: string; payload: string }
+  | { type: string; payload: string };
+
+const BRAND_CHANGE = "BRAND_CHANGE";
+const MODEL_CHANGE = "MODEL_CHANGE";
+
+const inititalState = {
+  brand: "Nvidia",
+  model: "RTX 3090",
+};
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case BRAND_CHANGE:
+      return { ...state, brand: action.payload };
+    case MODEL_CHANGE:
+      return { ...state, model: action.payload };
+    default:
+      return state;
+  }
+};
 
 const GPUSelection = ({ GpuData }: Props) => {
-  const [brand, setBrand] = useState<string>("Nvidia");
-  const [model, setModel] = useState<string>("");
+  const [state, dispatch] = useReducer(reducer, inititalState);
+
+  const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch({ type: BRAND_CHANGE, payload: e.target.value });
+  };
+  const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch({ type: MODEL_CHANGE, payload: e.target.value });
+  };
 
   const uniqueBrands = Array.from(new Set(GpuData.map((item) => item.Brand)));
   const filterdModels = Array.from(
-    new Set(GpuData.filter((GpuData) => GpuData.Brand === brand))
+    new Set(GpuData.filter((GpuData) => GpuData.Brand === state.brand))
   );
   return (
     <Wrapper typeof="local">
@@ -20,7 +54,7 @@ const GPUSelection = ({ GpuData }: Props) => {
       <Row>
         <Label>
           Brand:
-          <Select value={brand} onChange={(e) => setBrand(e.target.value)}>
+          <Select value={state.brand} onChange={handleBrandChange}>
             {uniqueBrands.map((brand, index) => (
               <option key={index} value={brand}>
                 {brand}
@@ -30,7 +64,7 @@ const GPUSelection = ({ GpuData }: Props) => {
         </Label>
         <Label>
           Model:
-          <Select value={model} onChange={(e) => setModel(e.target.value)}>
+          <Select value={state.model} onChange={handleModelChange}>
             {filterdModels.map((item, index) => (
               <option key={index} value={item.Model}>
                 {item.Model}
