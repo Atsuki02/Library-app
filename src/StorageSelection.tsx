@@ -1,41 +1,66 @@
-import { Props } from "./App";
+import { useReducer } from "react";
 import Heading from "./Heading";
 import Label from "./Label";
 import Row from "./Row";
 import Select from "./Select";
 import Wrapper from "./Wrapper";
-import { useState } from "react";
+import { Props } from "./App";
+
+type State = {
+  storageType: string;
+  storage: string;
+  brand: string;
+  model: string;
+};
+
+type Action =
+  | { type: "SET_STORAGE_TYPE"; payload: string }
+  | { type: "SET_STORAGE"; payload: string }
+  | { type: "SET_BRAND"; payload: string }
+  | { type: "SET_MODEL"; payload: string };
+
+const initialState: State = {
+  storageType: "HDD",
+  storage: "12TB",
+  brand: "WD",
+  model: "Gold 12TB",
+};
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "SET_STORAGE_TYPE":
+      return { ...state, storageType: action.payload };
+    case "SET_STORAGE":
+      return { ...state, storage: action.payload };
+    case "SET_BRAND":
+      return { ...state, brand: action.payload };
+    case "SET_MODEL":
+      return { ...state, model: action.payload };
+    default:
+      return state;
+  }
+};
 
 const StorageSelection = ({ HddData, SsdData }: Props) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const combinedData = HddData.concat(SsdData);
-  const [storageType, setStorageType] = useState<string>("HDD");
-  const [storage, setStorage] = useState<string>("12TB");
-  const [brand, setBrand] = useState<string>("");
-  const [model, setModel] = useState<string>("");
 
   const uniqueStorage = Array.from(
     new Set(
-      storageType === "HDD"
-        ? HddData.map((data) => {
-            const match = data.Model.match(/\d+(?=(TB|GB))/i);
-            return match ? match[0] + (match[1] || "") : "";
-          })
-        : SsdData.map((data) => {
-            const lastSpaceIndex = data.Model.lastIndexOf(" ");
-            return lastSpaceIndex !== -1
-              ? data.Model.slice(lastSpaceIndex + 1)
-              : "";
-          })
+      combinedData.map((data) => {
+        const match = data.Model.match(/\d+(?=(TB|GB))/i);
+        return match ? match[0] + (match[1] || "") : "";
+      })
     )
   );
 
   const filteredBrands = Array.from(
     new Set(
       combinedData.filter(
-        (combinedData) =>
-          combinedData.Type === storageType &&
-          combinedData.Model.slice(combinedData.Model.lastIndexOf(" ") + 1) ===
-            storage
+        (data) =>
+          data.Type === state.storageType &&
+          data.Model.slice(data.Model.lastIndexOf(" ") + 1) === state.storage
       )
     )
   );
@@ -47,11 +72,10 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
   const filteredModels = Array.from(
     new Set(
       combinedData.filter(
-        (combinedData) =>
-          combinedData.Type === storageType &&
-          combinedData.Model.slice(combinedData.Model.lastIndexOf(" ") + 1) ===
-            storage &&
-          combinedData.Brand === brand
+        (data) =>
+          data.Type === state.storageType &&
+          data.Model.slice(data.Model.lastIndexOf(" ") + 1) === state.storage &&
+          data.Brand === state.brand
       )
     )
   );
@@ -60,8 +84,6 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
     new Set(filteredModels.map((data) => data.Model))
   );
 
-  console.log(filteredModels);
-
   return (
     <Wrapper typeof="local">
       <Heading as="h2">Step4: Select Your Storage</Heading>
@@ -69,8 +91,10 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
         <Label>
           HDD or SSD:
           <Select
-            value={storageType}
-            onChange={(e) => setStorageType(e.target.value)}
+            value={state.storageType}
+            onChange={(e) =>
+              dispatch({ type: "SET_STORAGE_TYPE", payload: e.target.value })
+            }
           >
             <option value="HDD">HDD</option>
             <option value="SSD">SSD</option>
@@ -78,7 +102,12 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
         </Label>
         <Label>
           Storage:
-          <Select value={storage} onChange={(e) => setStorage(e.target.value)}>
+          <Select
+            value={state.storage}
+            onChange={(e) =>
+              dispatch({ type: "SET_STORAGE", payload: e.target.value })
+            }
+          >
             {uniqueStorage.map((item, index) => (
               <option key={index} value={item}>
                 {item}
@@ -88,7 +117,12 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
         </Label>
         <Label>
           Brand:
-          <Select value={brand} onChange={(e) => setBrand(e.target.value)}>
+          <Select
+            value={state.brand}
+            onChange={(e) =>
+              dispatch({ type: "SET_BRAND", payload: e.target.value })
+            }
+          >
             {filteredUniqueBrands.map((brand, index) => (
               <option key={index} value={brand}>
                 {brand}
@@ -98,7 +132,12 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
         </Label>
         <Label>
           Model:
-          <Select value={model} onChange={(e) => setModel(e.target.value)}>
+          <Select
+            value={state.model}
+            onChange={(e) =>
+              dispatch({ type: "SET_MODEL", payload: e.target.value })
+            }
+          >
             {filteredUniqueModels.map((model, index) => (
               <option key={index} value={model}>
                 {model}

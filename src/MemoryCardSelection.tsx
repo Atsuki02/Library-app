@@ -1,15 +1,43 @@
-import { useState } from "react";
-import { Props } from "./App";
+import { useReducer } from "react";
 import Heading from "./Heading";
 import Label from "./Label";
 import Row from "./Row";
 import Select from "./Select";
 import Wrapper from "./Wrapper";
+import { Props } from "./App";
+
+type State = {
+  number: number;
+  brand: string;
+  model: string;
+};
+
+type Action =
+  | { type: "SET_NUMBER"; payload: number }
+  | { type: "SET_BRAND"; payload: string }
+  | { type: "SET_MODEL"; payload: string };
+
+const initialState: State = {
+  number: 1,
+  brand: "G.SKILL",
+  model: "",
+};
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "SET_NUMBER":
+      return { ...state, number: action.payload };
+    case "SET_BRAND":
+      return { ...state, brand: action.payload };
+    case "SET_MODEL":
+      return { ...state, model: action.payload };
+    default:
+      return state;
+  }
+};
 
 const MemoryCardSelection = ({ MemoryData }: Props) => {
-  const [number, setNumber] = useState<number>(0);
-  const [brand, setBrand] = useState<string>("");
-  const [model, setModel] = useState<string>("");
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const uniqueBrands = Array.from(
     new Set(MemoryData.map((item) => item.Brand))
@@ -19,16 +47,28 @@ const MemoryCardSelection = ({ MemoryData }: Props) => {
     new Set(
       MemoryData.filter(
         (MemoryData) =>
-          MemoryData.Brand === brand &&
+          MemoryData.Brand === state.brand &&
           Number(
             MemoryData.Model.substring(
               MemoryData.Model.indexOf("x") - 2,
               MemoryData.Model.indexOf("x")
             ).trim()
-          ) === number
+          ) === state.number
       )
     )
   );
+
+  const handleNumberChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch({ type: "SET_NUMBER", payload: Number(e.target.value) });
+  };
+
+  const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch({ type: "SET_BRAND", payload: e.target.value });
+  };
+
+  const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch({ type: "SET_MODEL", payload: e.target.value });
+  };
 
   return (
     <Wrapper typeof="local">
@@ -36,10 +76,7 @@ const MemoryCardSelection = ({ MemoryData }: Props) => {
       <Row>
         <Label>
           How many?
-          <Select
-            value={number}
-            onChange={(e) => setNumber(Number(e.target.value))}
-          >
+          <Select value={state.number} onChange={handleNumberChange}>
             <option value={1}>1</option>
             <option value={2}>2</option>
             <option value={3}>3</option>
@@ -48,7 +85,7 @@ const MemoryCardSelection = ({ MemoryData }: Props) => {
         </Label>
         <Label>
           Brand:
-          <Select value={brand} onChange={(e) => setBrand(e.target.value)}>
+          <Select value={state.brand} onChange={handleBrandChange}>
             {uniqueBrands.map((brand, index) => (
               <option key={index} value={brand}>
                 {brand}
@@ -58,7 +95,7 @@ const MemoryCardSelection = ({ MemoryData }: Props) => {
         </Label>
         <Label>
           Model:
-          <Select value={model} onChange={(e) => setModel(e.target.value)}>
+          <Select value={state.model} onChange={handleModelChange}>
             {filterdModels.map((item, index) => (
               <option key={index} value={item.Model}>
                 {item.Model}
