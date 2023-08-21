@@ -13,8 +13,8 @@ const BRAND_CHANGE = "BRAND_CHANGE";
 const MODEL_CHANGE = "MODEL_CHANGE";
 
 const initialState = {
-  brand: "Nvidia",
-  model: "RTX 3090",
+  brand: "",
+  model: "",
 };
 
 const reducer = (state: State, action: Action): State => {

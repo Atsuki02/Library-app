@@ -13,8 +13,8 @@ const BRAND_CHANGE = "BRAND_CHANGE";
 const MODEL_CHANGE = "MODEL_CHANGE";
 
 const initialState: State = {
-  brand: "Intel",
-  model: "Core i9-9900KS",
+  brand: "",
+  model: "",
 };
 
 const reducer = (state: State, action: Action): State => {

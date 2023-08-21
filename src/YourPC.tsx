@@ -1,14 +1,56 @@
+import { Props } from "./App";
 import { useCpuContext } from "./CpuContext";
 import { useGpuContext } from "./GpuContext";
 import { useMemoryContext } from "./MemoryContext";
 import { useStorageContext } from "./StorageContext";
 
-const YourPC = () => {
+const YourPC = ({ CpuData, GpuData, MemoryData, HddData, SsdData }: Props) => {
   const { state: cpuState, dispatch: cpuDispatch } = useCpuContext();
   const { state: gpuState, dispatch: gpuDispatch } = useGpuContext();
   const { state: ramState, dispatch: ramDispatch } = useMemoryContext();
   const { state: storageState, dispatch: storageDispatch } =
     useStorageContext();
+
+  const selectedCpu = CpuData.find(
+    (item) => item.Brand === cpuState.brand && item.Model === cpuState.model
+  );
+  const cpuBenchmark: number | undefined = selectedCpu?.Benchmark;
+
+  const selectedGpu = GpuData.find(
+    (item) => item.Brand === gpuState.brand && item.Model === gpuState.model
+  );
+  const gpuBenchmark: number | undefined = selectedGpu?.Benchmark;
+
+  const selectedMemory = MemoryData.find(
+    (item) => item.Brand === ramState.brand && item.Model === ramState.model
+  );
+  const memoryBenchmark: number | undefined = selectedMemory?.Benchmark;
+
+  const selectedStorage =
+    HddData.find(
+      (item) =>
+        item.Type === storageState.storageType &&
+        item.Brand === storageState.brand &&
+        item.Model === storageState.model
+    ) ||
+    SsdData.find(
+      (item) => item.Brand === ramState.brand && item.Model === ramState.model
+    );
+  const storageBenchmark: number | undefined = selectedStorage?.Benchmark;
+
+  const totalGamingPerformance = Math.floor(
+    (gpuBenchmark || 0) * 0.6 +
+      (cpuBenchmark || 0) * 0.25 +
+      (memoryBenchmark || 0) * 0.125 +
+      (storageBenchmark || 0) * 0.025
+  );
+
+  const totalWorkPerformance = Math.floor(
+    (gpuBenchmark || 0) * 0.6 +
+      (cpuBenchmark || 0) * 0.25 +
+      (memoryBenchmark || 0) * 0.1 +
+      (storageBenchmark || 0) * 0.5
+  );
 
   return (
     <div>
@@ -37,8 +79,8 @@ const YourPC = () => {
       </div>
       <div>
         <h3>Performance</h3>
-        <p>Gaming: 162%</p>
-        <p>Work: 120%</p>
+        <p>Gaming: {totalGamingPerformance}%</p>
+        <p>Work: {totalWorkPerformance}%</p>
       </div>
     </div>
   );

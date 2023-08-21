@@ -18,7 +18,7 @@ const GPUSelection = ({ GpuData }: Props) => {
 
   const uniqueBrands = Array.from(new Set(GpuData.map((item) => item.Brand)));
   const filterdModels = Array.from(
-    new Set(GpuData.filter((GpuData) => GpuData.Brand === state.GpuBrand))
+    new Set(GpuData.filter((GpuData) => GpuData.Brand === state.brand))
   );
   return (
     <Wrapper typeof="local">
@@ -26,7 +26,8 @@ const GPUSelection = ({ GpuData }: Props) => {
       <Row>
         <Label>
           Brand:
-          <Select value={state.GpuBrand} onChange={handleBrandChange}>
+          <Select value={state.brand} onChange={handleBrandChange}>
+            <option>-</option>
             {uniqueBrands.map((brand, index) => (
               <option key={index} value={brand}>
                 {brand}
@@ -36,7 +37,8 @@ const GPUSelection = ({ GpuData }: Props) => {
         </Label>
         <Label>
           Model:
-          <Select value={state.GpuModel} onChange={handleModelChange}>
+          <Select value={state.model} onChange={handleModelChange}>
+            <option>-</option>
             {filterdModels.map((item, index) => (
               <option key={index} value={item.Model}>
                 {item.Model}

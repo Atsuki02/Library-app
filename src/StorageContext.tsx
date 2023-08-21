@@ -14,10 +14,10 @@ type Action =
   | { type: "SET_MODEL"; payload: string };
 
 const initialState: State = {
-  storageType: "HDD",
-  storage: "12TB",
-  brand: "WD",
-  model: "Gold 12TB",
+  storageType: "",
+  storage: "",
+  brand: "",
+  model: "",
 };
 
 const reducer = (state: State, action: Action): State => {

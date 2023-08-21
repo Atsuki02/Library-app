@@ -61,6 +61,7 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
               dispatch({ type: "SET_STORAGE_TYPE", payload: e.target.value })
             }
           >
+            <option>-</option>
             <option value="HDD">HDD</option>
             <option value="SSD">SSD</option>
           </Select>
@@ -73,6 +74,7 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
               dispatch({ type: "SET_STORAGE", payload: e.target.value })
             }
           >
+            <option>-</option>
             {uniqueStorage.map((item, index) => (
               <option key={index} value={item}>
                 {item}
@@ -88,6 +90,7 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
               dispatch({ type: "SET_BRAND", payload: e.target.value })
             }
           >
+            <option>-</option>
             {filteredUniqueBrands.map((brand, index) => (
               <option key={index} value={brand}>
                 {brand}
@@ -103,6 +106,7 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
               dispatch({ type: "SET_MODEL", payload: e.target.value })
             }
           >
+            <option>-</option>
             {filteredUniqueModels.map((model, index) => (
               <option key={index} value={model}>
                 {model}

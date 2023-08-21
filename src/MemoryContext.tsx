@@ -13,7 +13,7 @@ type Action =
 
 const initialState: State = {
   number: 1,
-  brand: "G.SKILL",
+  brand: "",
   model: "",
 };
 

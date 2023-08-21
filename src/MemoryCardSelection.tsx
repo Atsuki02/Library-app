@@ -47,6 +47,7 @@ const MemoryCardSelection = ({ MemoryData }: Props) => {
         <Label>
           How many?
           <Select value={state.number} onChange={handleNumberChange}>
+            <option>-</option>
             <option value={1}>1</option>
             <option value={2}>2</option>
             <option value={3}>3</option>
@@ -56,6 +57,7 @@ const MemoryCardSelection = ({ MemoryData }: Props) => {
         <Label>
           Brand:
           <Select value={state.brand} onChange={handleBrandChange}>
+            <option>-</option>
             {uniqueBrands.map((brand, index) => (
               <option key={index} value={brand}>
                 {brand}
@@ -66,6 +68,7 @@ const MemoryCardSelection = ({ MemoryData }: Props) => {
         <Label>
           Model:
           <Select value={state.model} onChange={handleModelChange}>
+            <option>-</option>
             {filterdModels.map((item, index) => (
               <option key={index} value={item.Model}>
                 {item.Model}

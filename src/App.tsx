@@ -68,7 +68,13 @@ function App() {
         SsdData={SsdData}
       />
       <Button />
-      <YourPC />
+      <YourPC
+        CpuData={CpuData}
+        GpuData={GpuData}
+        MemoryData={MemoryData}
+        HddData={HddData}
+        SsdData={SsdData}
+      />
     </>
   );
 }
