@@ -19,7 +19,7 @@ const CPUSelection = ({ CpuData }: Props) => {
 
   const uniqueBrands = Array.from(new Set(CpuData.map((item) => item.Brand)));
   const filterdModels = Array.from(
-    new Set(CpuData.filter((CpuData) => CpuData.Brand === state.brand))
+    new Set(CpuData.filter((CpuData) => CpuData.Brand === state.CpuBrand))
   );
 
   return (
@@ -28,7 +28,7 @@ const CPUSelection = ({ CpuData }: Props) => {
       <Row>
         <Label>
           Brand:
-          <Select value={state.brand} onChange={handleBrandChange}>
+          <Select value={state.CpuBrand} onChange={handleBrandChange}>
             {uniqueBrands.map((brand, index) => (
               <option key={index} value={brand}>
                 {brand}
@@ -39,7 +39,7 @@ const CPUSelection = ({ CpuData }: Props) => {
 
         <Label>
           Model:
-          <Select value={state.model} onChange={handleModelChange}>
+          <Select value={state.CpuModel} onChange={handleModelChange}>
             {filterdModels.map((item, index) => (
               <option key={index} value={item.Model}>
                 {item.Model}

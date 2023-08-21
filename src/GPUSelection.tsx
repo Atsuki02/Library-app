@@ -1,5 +1,5 @@
 import { Props } from "./App";
-import { useCpuContext } from "./CpuContext";
+import { useGpuContext } from "./GpuContext";
 import Heading from "./Heading";
 import Label from "./Label";
 import Row from "./Row";
@@ -7,7 +7,7 @@ import Select from "./Select";
 import Wrapper from "./Wrapper";
 
 const GPUSelection = ({ GpuData }: Props) => {
-  const { state, dispatch } = useCpuContext();
+  const { state, dispatch } = useGpuContext();
 
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({ type: "BRAND_CHANGE", payload: e.target.value });
@@ -18,7 +18,7 @@ const GPUSelection = ({ GpuData }: Props) => {
 
   const uniqueBrands = Array.from(new Set(GpuData.map((item) => item.Brand)));
   const filterdModels = Array.from(
-    new Set(GpuData.filter((GpuData) => GpuData.Brand === state.brand))
+    new Set(GpuData.filter((GpuData) => GpuData.Brand === state.GpuBrand))
   );
   return (
     <Wrapper typeof="local">
@@ -26,7 +26,7 @@ const GPUSelection = ({ GpuData }: Props) => {
       <Row>
         <Label>
           Brand:
-          <Select value={state.brand} onChange={handleBrandChange}>
+          <Select value={state.GpuBrand} onChange={handleBrandChange}>
             {uniqueBrands.map((brand, index) => (
               <option key={index} value={brand}>
                 {brand}
@@ -36,7 +36,7 @@ const GPUSelection = ({ GpuData }: Props) => {
         </Label>
         <Label>
           Model:
-          <Select value={state.model} onChange={handleModelChange}>
+          <Select value={state.GpuModel} onChange={handleModelChange}>
             {filterdModels.map((item, index) => (
               <option key={index} value={item.Model}>
                 {item.Model}

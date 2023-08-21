@@ -1,28 +1,39 @@
+import { useCpuContext } from "./CpuContext";
+import { useGpuContext } from "./GpuContext";
+import { useMemoryContext } from "./MemoryContext";
+import { useStorageContext } from "./StorageContext";
+
 const YourPC = () => {
+  const { state: cpuState, dispatch: cpuDispatch } = useCpuContext();
+  const { state: gpuState, dispatch: gpuDispatch } = useGpuContext();
+  const { state: ramState, dispatch: ramDispatch } = useMemoryContext();
+  const { state: storageState, dispatch: storageDispatch } =
+    useStorageContext();
+
   return (
     <div>
       <h2>Your PC1</h2>
       <div>
         <h3>CPU</h3>
-        <p>Brand: Intel</p>
-        <p>Model: Core i9-10900K</p>
+        <p>Brand: {cpuState.brand}</p>
+        <p>Model: {cpuState.model}</p>
       </div>
       <div>
         <h3>GPU</h3>
-        <p>Brand: Nvidia</p>
-        <p>Model: Quadro RTX A6000</p>
+        <p>Brand: {gpuState.brand}</p>
+        <p>Model: {gpuState.model}</p>
       </div>
       <div>
         <h3>RAM</h3>
-        <p>Brand: Crucial</p>
-        <p>Model: Ballistix Sport LT DDR4 2666 C16 1x8GB</p>
+        <p>Brand: {ramState.brand}</p>
+        <p>Model: {ramState.model}</p>
       </div>
       <div>
         <h3>Storage</h3>
-        <p>Disk: HDD</p>
-        <p>Storage: 450GB</p>
-        <p>Brand: Hitachi</p>
-        <p>Model: UltraStar 15K600 450GB</p>
+        <p>Disk: {storageState.storageType}</p>
+        <p>Storage: {storageState.storage}</p>
+        <p>Brand: {storageState.brand}</p>
+        <p>Model: {storageState.model}</p>
       </div>
       <div>
         <h3>Performance</h3>
