@@ -1,43 +1,13 @@
-import { useReducer } from "react";
 import Heading from "./Heading";
 import Label from "./Label";
 import Row from "./Row";
 import Select from "./Select";
 import Wrapper from "./Wrapper";
 import { Props } from "./App";
-
-type State = {
-  number: number;
-  brand: string;
-  model: string;
-};
-
-type Action =
-  | { type: "SET_NUMBER"; payload: number }
-  | { type: "SET_BRAND"; payload: string }
-  | { type: "SET_MODEL"; payload: string };
-
-const initialState: State = {
-  number: 1,
-  brand: "G.SKILL",
-  model: "",
-};
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "SET_NUMBER":
-      return { ...state, number: action.payload };
-    case "SET_BRAND":
-      return { ...state, brand: action.payload };
-    case "SET_MODEL":
-      return { ...state, model: action.payload };
-    default:
-      return state;
-  }
-};
+import { useMemoryContext } from "./MemoryContext";
 
 const MemoryCardSelection = ({ MemoryData }: Props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { state, dispatch } = useMemoryContext();
 
   const uniqueBrands = Array.from(
     new Set(MemoryData.map((item) => item.Brand))

@@ -1,48 +1,13 @@
-import { useReducer } from "react";
 import Heading from "./Heading";
 import Label from "./Label";
 import Row from "./Row";
 import Select from "./Select";
 import Wrapper from "./Wrapper";
 import { Props } from "./App";
-
-type State = {
-  storageType: string;
-  storage: string;
-  brand: string;
-  model: string;
-};
-
-type Action =
-  | { type: "SET_STORAGE_TYPE"; payload: string }
-  | { type: "SET_STORAGE"; payload: string }
-  | { type: "SET_BRAND"; payload: string }
-  | { type: "SET_MODEL"; payload: string };
-
-const initialState: State = {
-  storageType: "HDD",
-  storage: "12TB",
-  brand: "WD",
-  model: "Gold 12TB",
-};
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "SET_STORAGE_TYPE":
-      return { ...state, storageType: action.payload };
-    case "SET_STORAGE":
-      return { ...state, storage: action.payload };
-    case "SET_BRAND":
-      return { ...state, brand: action.payload };
-    case "SET_MODEL":
-      return { ...state, model: action.payload };
-    default:
-      return state;
-  }
-};
+import { useStorageContext } from "./StorageContext";
 
 const StorageSelection = ({ HddData, SsdData }: Props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { state, dispatch } = useStorageContext();
 
   const combinedData = HddData.concat(SsdData);
 

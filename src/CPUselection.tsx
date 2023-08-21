@@ -3,46 +3,18 @@ import Row from "./Row";
 import Wrapper from "./Wrapper";
 import Label from "./Label";
 import Select from "./Select";
-import { useReducer } from "react";
+
 import { Props } from "./App";
-
-type State = {
-  brand: string;
-  model: string;
-};
-
-type Action =
-  | { type: string; payload: string }
-  | { type: string; payload: string };
-
-const BRAND_CHANGE = "BRAND_CHANGE";
-const MODEL_CHANGE = "MODEL_CHANGE";
-
-const inititalState = {
-  brand: "Intel",
-  model: "Core i9-9900KS",
-};
-
-const reducer = (state: State, action: Action): State => {
-  console.log(action);
-  switch (action.type) {
-    case BRAND_CHANGE:
-      return { ...state, brand: action.payload };
-    case MODEL_CHANGE:
-      return { ...state, model: action.payload };
-    default:
-      return state;
-  }
-};
+import { useCpuContext } from "./CpuContext";
 
 const CPUSelection = ({ CpuData }: Props) => {
-  const [state, dispatch] = useReducer(reducer, inititalState);
+  const { state, dispatch } = useCpuContext();
 
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: BRAND_CHANGE, payload: e.target.value });
+    dispatch({ type: "BRAND_CHANGE", payload: e.target.value });
   };
   const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: MODEL_CHANGE, payload: e.target.value });
+    dispatch({ type: "MODEL_CHANGE", payload: e.target.value });
   };
 
   const uniqueBrands = Array.from(new Set(CpuData.map((item) => item.Brand)));
