@@ -5,8 +5,14 @@ import Select from "./Select";
 import Wrapper from "./Wrapper";
 import { Props } from "./App";
 import { useStorageContext } from "./StorageContext";
+import { StyledScreen } from "./GlobalStyles";
+import Button from "./Button";
 
-const StorageSelection = ({ HddData, SsdData }: Props) => {
+const StorageSelection = ({
+  HddData,
+  SsdData,
+  dispatch: statusDispatch,
+}: Props) => {
   const { state, dispatch } = useStorageContext();
 
   const combinedData = HddData.concat(SsdData);
@@ -50,72 +56,88 @@ const StorageSelection = ({ HddData, SsdData }: Props) => {
   );
 
   return (
-    <Wrapper typeof="local">
-      <Heading as="h2">Step4: Select Your Storage</Heading>
-      <Row>
-        <Label>
-          HDD or SSD:
-          <Select
-            value={state.storageType}
-            onChange={(e) =>
-              dispatch({ type: "SET_STORAGE_TYPE", payload: e.target.value })
-            }
+    <StyledScreen>
+      <Wrapper typeof="local">
+        <Heading as="h2">Step4: Select Storage</Heading>
+        <Row typeof="vertical">
+          <Label>
+            HDD or SSD:
+            <Select
+              value={state.storageType}
+              onChange={(e) =>
+                dispatch({ type: "SET_STORAGE_TYPE", payload: e.target.value })
+              }
+            >
+              <option>-</option>
+              <option value="HDD">HDD</option>
+              <option value="SSD">SSD</option>
+            </Select>
+          </Label>
+          <Label>
+            Storage:
+            <Select
+              value={state.storage}
+              onChange={(e) =>
+                dispatch({ type: "SET_STORAGE", payload: e.target.value })
+              }
+            >
+              <option>-</option>
+              {uniqueStorage.map((item, index) => (
+                <option key={index} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Select>
+          </Label>
+          <Label>
+            Brand:
+            <Select
+              value={state.brand}
+              onChange={(e) =>
+                dispatch({ type: "SET_BRAND", payload: e.target.value })
+              }
+            >
+              <option>-</option>
+              {filteredUniqueBrands.map((brand, index) => (
+                <option key={index} value={brand}>
+                  {brand}
+                </option>
+              ))}
+            </Select>
+          </Label>
+          <Label>
+            Model:
+            <Select
+              value={state.model}
+              onChange={(e) =>
+                dispatch({ type: "SET_MODEL", payload: e.target.value })
+              }
+            >
+              <option>-</option>
+              {filteredUniqueModels.map((model, index) => (
+                <option key={index} value={model}>
+                  {model}
+                </option>
+              ))}
+            </Select>
+          </Label>
+        </Row>
+        <Row style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            onClick={() => statusDispatch({ type: "backStep" })}
+            type="small"
           >
-            <option>-</option>
-            <option value="HDD">HDD</option>
-            <option value="SSD">SSD</option>
-          </Select>
-        </Label>
-        <Label>
-          Storage:
-          <Select
-            value={state.storage}
-            onChange={(e) =>
-              dispatch({ type: "SET_STORAGE", payload: e.target.value })
-            }
+            Back
+          </Button>
+          <Button
+            onClick={() => statusDispatch({ type: "finish" })}
+            type="small"
           >
-            <option>-</option>
-            {uniqueStorage.map((item, index) => (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            ))}
-          </Select>
-        </Label>
-        <Label>
-          Brand:
-          <Select
-            value={state.brand}
-            onChange={(e) =>
-              dispatch({ type: "SET_BRAND", payload: e.target.value })
-            }
-          >
-            <option>-</option>
-            {filteredUniqueBrands.map((brand, index) => (
-              <option key={index} value={brand}>
-                {brand}
-              </option>
-            ))}
-          </Select>
-        </Label>
-        <Label>
-          Model:
-          <Select
-            value={state.model}
-            onChange={(e) =>
-              dispatch({ type: "SET_MODEL", payload: e.target.value })
-            }
-          >
-            <option>-</option>
-            {filteredUniqueModels.map((model, index) => (
-              <option key={index} value={model}>
-                {model}
-              </option>
-            ))}
-          </Select>
-        </Label>
-      </Row>
-    </Wrapper>
+            Next
+          </Button>
+        </Row>
+      </Wrapper>
+    </StyledScreen>
   );
 };
 

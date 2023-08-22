@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import Button from "./Button";
 import GlobalStyles from "./GlobalStyles";
-import Header from "./Header";
-import Selection from "./Selection";
 import YourPC from "./YourPC";
+import { useReducer } from "react";
+import CPUSelection from "./CPUselection";
+import GPUSelection from "./GPUSelection";
+import MemoryCardSelection from "./MemoryCardSelection";
+import StorageSelection from "./StorageSelection";
+import StartScreen from "./StartScreen";
 
 export type Cpu = {
   Type: string;
@@ -26,6 +29,48 @@ export type Props = {
   MemoryData: Memory[];
   HddData: Hdd[];
   SsdData: Ssd[];
+  dispatch: React.Dispatch<Action>;
+};
+
+const initialState = {
+  // 'loading', 'error', 'ready', 'active', 'finished'
+  status: "ready",
+  step: 1,
+};
+
+type State = {
+  status: string;
+  step: number;
+};
+
+type Action =
+  | { type: "dataReceived"; payload: string }
+  | { type: "dataFailed"; payload: string }
+  | { type: "start" }
+  | { type: "nextStep" }
+  | { type: "backStep" }
+  | { type: "finish" }
+  | { type: "restart" };
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "dataReceived":
+      return { ...state, status: "ready" };
+    case "dataFailed":
+      return { ...state, status: "error" };
+    case "start":
+      return { ...state, status: "active", step: 1 };
+    case "nextStep":
+      return { ...state, step: state.step + 1 };
+    case "backStep":
+      return { ...state, step: state.step - 1 };
+    case "finish":
+      return { ...state, status: "finished" };
+    case "restart":
+      return initialState;
+    default:
+      throw new Error("Action unknown");
+  }
 };
 
 function App() {
@@ -34,6 +79,9 @@ function App() {
   const [MemoryData, setMemoryData] = useState<Memory[]>([]);
   const [HddData, setHddData] = useState<Hdd[]>([]);
   const [SsdData, setSsdData] = useState<Ssd[]>([]);
+
+  const [{ status, step }, dispatch]: [State, React.Dispatch<Action>] =
+    useReducer(reducer, initialState);
 
   useEffect(() => {
     Promise.all([
@@ -56,25 +104,28 @@ function App() {
       });
   }, []);
 
+  const componentProps = {
+    CpuData,
+    GpuData,
+    MemoryData,
+    HddData,
+    SsdData,
+    dispatch,
+  };
+
   return (
     <>
       <GlobalStyles />
-      <Header />
-      <Selection
-        CpuData={CpuData}
-        GpuData={GpuData}
-        MemoryData={MemoryData}
-        HddData={HddData}
-        SsdData={SsdData}
-      />
-      <Button />
-      <YourPC
-        CpuData={CpuData}
-        GpuData={GpuData}
-        MemoryData={MemoryData}
-        HddData={HddData}
-        SsdData={SsdData}
-      />
+      {status === "ready" && <StartScreen dispatch={dispatch} />}
+      {status === "active" && (
+        <>
+          {step === 1 && <CPUSelection {...componentProps} />}
+          {step === 2 && <GPUSelection {...componentProps} />}
+          {step === 3 && <MemoryCardSelection {...componentProps} />}
+          {step === 4 && <StorageSelection {...componentProps} />}
+        </>
+      )}
+      {status === "finished" && <YourPC {...componentProps} />}
     </>
   );
 }

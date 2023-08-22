@@ -4,14 +4,22 @@ const Wrapper = styled.div`
   ${(props) =>
     props.typeof === "global" &&
     css`
-      padding: 3rem;
+      padding: 0.6rem;
     `}
 
   ${(props) =>
     props.typeof === "local" &&
     css`
-      padding: 1rem;
-      border-bottom: 1px solid #000;
+      padding: 4rem;
+      width: 40%;
+      border-radius: 1rem;
+      background-color: #7b7dfa;
+      box-shadow: 10px 10px 10px rgba(143, 168, 243, 0.296);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
     `}
 `;
 

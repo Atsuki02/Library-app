@@ -1,12 +1,15 @@
 import { Props } from "./App";
+import Button from "./Button";
+import { StyledScreen } from "./GlobalStyles";
 import { useGpuContext } from "./GpuContext";
 import Heading from "./Heading";
 import Label from "./Label";
 import Row from "./Row";
 import Select from "./Select";
+
 import Wrapper from "./Wrapper";
 
-const GPUSelection = ({ GpuData }: Props) => {
+const GPUSelection = ({ GpuData, dispatch: statusDispatch }: Props) => {
   const { state, dispatch } = useGpuContext();
 
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -21,33 +24,49 @@ const GPUSelection = ({ GpuData }: Props) => {
     new Set(GpuData.filter((GpuData) => GpuData.Brand === state.brand))
   );
   return (
-    <Wrapper typeof="local">
-      <Heading as="h2">Step2: Select Your GPU</Heading>
-      <Row>
-        <Label>
-          Brand:
-          <Select value={state.brand} onChange={handleBrandChange}>
-            <option>-</option>
-            {uniqueBrands.map((brand, index) => (
-              <option key={index} value={brand}>
-                {brand}
-              </option>
-            ))}
-          </Select>
-        </Label>
-        <Label>
-          Model:
-          <Select value={state.model} onChange={handleModelChange}>
-            <option>-</option>
-            {filterdModels.map((item, index) => (
-              <option key={index} value={item.Model}>
-                {item.Model}
-              </option>
-            ))}
-          </Select>
-        </Label>
-      </Row>
-    </Wrapper>
+    <StyledScreen>
+      <Wrapper typeof="local">
+        <Heading as="h2">Step2: Select GPU</Heading>
+        <Row typeof="vertical">
+          <Label>
+            Brand:
+            <Select value={state.brand} onChange={handleBrandChange}>
+              <option>-</option>
+              {uniqueBrands.map((brand, index) => (
+                <option key={index} value={brand}>
+                  {brand}
+                </option>
+              ))}
+            </Select>
+          </Label>
+          <Label>
+            Model:
+            <Select value={state.model} onChange={handleModelChange}>
+              <option>-</option>
+              {filterdModels.map((item, index) => (
+                <option key={index} value={item.Model}>
+                  {item.Model}
+                </option>
+              ))}
+            </Select>
+          </Label>
+        </Row>
+        <Row style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            onClick={() => statusDispatch({ type: "backStep" })}
+            type="small"
+          >
+            Back
+          </Button>
+          <Button
+            onClick={() => statusDispatch({ type: "nextStep" })}
+            type="small"
+          >
+            Next
+          </Button>
+        </Row>
+      </Wrapper>
+    </StyledScreen>
   );
 };
 

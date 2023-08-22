@@ -1,15 +1,18 @@
 import { Props } from "./App";
 import { useCpuContext } from "./CpuContext";
+import { StyledScreen } from "./GlobalStyles";
 import { useGpuContext } from "./GpuContext";
+import Heading from "./Heading";
 import { useMemoryContext } from "./MemoryContext";
+import Row from "./Row";
 import { useStorageContext } from "./StorageContext";
+import Wrapper from "./Wrapper";
 
 const YourPC = ({ CpuData, GpuData, MemoryData, HddData, SsdData }: Props) => {
-  const { state: cpuState, dispatch: cpuDispatch } = useCpuContext();
-  const { state: gpuState, dispatch: gpuDispatch } = useGpuContext();
-  const { state: ramState, dispatch: ramDispatch } = useMemoryContext();
-  const { state: storageState, dispatch: storageDispatch } =
-    useStorageContext();
+  const { state: cpuState } = useCpuContext();
+  const { state: gpuState } = useGpuContext();
+  const { state: ramState } = useMemoryContext();
+  const { state: storageState } = useStorageContext();
 
   const selectedCpu = CpuData.find(
     (item) => item.Brand === cpuState.brand && item.Model === cpuState.model
@@ -53,36 +56,38 @@ const YourPC = ({ CpuData, GpuData, MemoryData, HddData, SsdData }: Props) => {
   );
 
   return (
-    <div>
-      <h2>Your PC1</h2>
-      <div>
-        <h3>CPU</h3>
-        <p>Brand: {cpuState.brand}</p>
-        <p>Model: {cpuState.model}</p>
-      </div>
-      <div>
-        <h3>GPU</h3>
-        <p>Brand: {gpuState.brand}</p>
-        <p>Model: {gpuState.model}</p>
-      </div>
-      <div>
-        <h3>RAM</h3>
-        <p>Brand: {ramState.brand}</p>
-        <p>Model: {ramState.model}</p>
-      </div>
-      <div>
-        <h3>Storage</h3>
-        <p>Disk: {storageState.storageType}</p>
-        <p>Storage: {storageState.storage}</p>
-        <p>Brand: {storageState.brand}</p>
-        <p>Model: {storageState.model}</p>
-      </div>
-      <div>
-        <h3>Performance</h3>
-        <p>Gaming: {totalGamingPerformance}%</p>
-        <p>Work: {totalWorkPerformance}%</p>
-      </div>
-    </div>
+    <StyledScreen>
+      <Wrapper typeof="global">
+        <Heading as="h1">Your PC</Heading>
+        <Row>
+          <Heading as="h3">CPU</Heading>
+          <p>Brand: {cpuState.brand}</p>
+          <p>Model: {cpuState.model}</p>
+        </Row>
+        <Row>
+          <Heading as="h3">GPU</Heading>
+          <p>Brand: {gpuState.brand}</p>
+          <p>Model: {gpuState.model}</p>
+        </Row>
+        <Row>
+          <Heading as="h3">RAM</Heading>
+          <p>Brand: {ramState.brand}</p>
+          <p>Model: {ramState.model}</p>
+        </Row>
+        <Row>
+          <Heading as="h3">Storage</Heading>
+          <p>Disk: {storageState.storageType}</p>
+          <p>Storage: {storageState.storage}</p>
+          <p>Brand: {storageState.brand}</p>
+          <p>Model: {storageState.model}</p>
+        </Row>
+        <Row>
+          <Heading as="h2">Performance</Heading>
+          <p>Gaming: {totalGamingPerformance}%</p>
+          <p>Work: {totalWorkPerformance}%</p>
+        </Row>
+      </Wrapper>
+    </StyledScreen>
   );
 };
 

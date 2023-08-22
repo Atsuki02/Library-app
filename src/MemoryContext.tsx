@@ -12,7 +12,7 @@ type Action =
   | { type: "SET_MODEL"; payload: string };
 
 const initialState: State = {
-  number: 1,
+  number: 0,
   brand: "",
   model: "",
 };

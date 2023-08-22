@@ -5,8 +5,13 @@ import Select from "./Select";
 import Wrapper from "./Wrapper";
 import { Props } from "./App";
 import { useMemoryContext } from "./MemoryContext";
+import { StyledScreen } from "./GlobalStyles";
+import Button from "./Button";
 
-const MemoryCardSelection = ({ MemoryData }: Props) => {
+const MemoryCardSelection = ({
+  MemoryData,
+  dispatch: statusDispatch,
+}: Props) => {
   const { state, dispatch } = useMemoryContext();
 
   const uniqueBrands = Array.from(
@@ -41,43 +46,59 @@ const MemoryCardSelection = ({ MemoryData }: Props) => {
   };
 
   return (
-    <Wrapper typeof="local">
-      <Heading as="h2">Step3: Select Your Memory Card</Heading>
-      <Row>
-        <Label>
-          How many?
-          <Select value={state.number} onChange={handleNumberChange}>
-            <option>-</option>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-          </Select>
-        </Label>
-        <Label>
-          Brand:
-          <Select value={state.brand} onChange={handleBrandChange}>
-            <option>-</option>
-            {uniqueBrands.map((brand, index) => (
-              <option key={index} value={brand}>
-                {brand}
-              </option>
-            ))}
-          </Select>
-        </Label>
-        <Label>
-          Model:
-          <Select value={state.model} onChange={handleModelChange}>
-            <option>-</option>
-            {filterdModels.map((item, index) => (
-              <option key={index} value={item.Model}>
-                {item.Model}
-              </option>
-            ))}
-          </Select>
-        </Label>
-      </Row>
-    </Wrapper>
+    <StyledScreen>
+      <Wrapper typeof="local">
+        <Heading as="h2">Step3: Select Memory Card</Heading>
+        <Row typeof="vertical">
+          <Label>
+            How many?
+            <Select value={state.number} onChange={handleNumberChange}>
+              <option>-</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+            </Select>
+          </Label>
+          <Label>
+            Brand:
+            <Select value={state.brand} onChange={handleBrandChange}>
+              <option>-</option>
+              {uniqueBrands.map((brand, index) => (
+                <option key={index} value={brand}>
+                  {brand}
+                </option>
+              ))}
+            </Select>
+          </Label>
+          <Label>
+            Model:
+            <Select value={state.model} onChange={handleModelChange}>
+              <option>-</option>
+              {filterdModels.map((item, index) => (
+                <option key={index} value={item.Model}>
+                  {item.Model}
+                </option>
+              ))}
+            </Select>
+          </Label>
+        </Row>
+        <Row style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            onClick={() => statusDispatch({ type: "backStep" })}
+            type="small"
+          >
+            Back
+          </Button>
+          <Button
+            onClick={() => statusDispatch({ type: "nextStep" })}
+            type="small"
+          >
+            Next
+          </Button>
+        </Row>
+      </Wrapper>
+    </StyledScreen>
   );
 };
 
