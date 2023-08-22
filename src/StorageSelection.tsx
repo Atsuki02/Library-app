@@ -7,6 +7,7 @@ import { Props } from "./App";
 import { useStorageContext } from "./StorageContext";
 import { StyledScreen } from "./GlobalStyles";
 import Button from "./Button";
+import { toast } from "react-hot-toast";
 
 const StorageSelection = ({
   HddData,
@@ -55,13 +56,22 @@ const StorageSelection = ({
     new Set(filteredModels.map((data) => data.Model))
   );
 
+  const handleNextStep = () => {
+    if (!state.brand || !state.model) {
+      toast.error("Please select all items.");
+      return;
+    }
+
+    statusDispatch({ type: "nextStep" });
+  };
+
   return (
     <StyledScreen>
       <Wrapper typeof="local">
         <Heading as="h2">Step4: Select Storage</Heading>
         <Row typeof="vertical">
           <Label>
-            HDD or SSD:
+            Type:
             <Select
               value={state.storageType}
               onChange={(e) =>
@@ -129,10 +139,7 @@ const StorageSelection = ({
           >
             Back
           </Button>
-          <Button
-            onClick={() => statusDispatch({ type: "finish" })}
-            type="small"
-          >
+          <Button onClick={handleNextStep} type="small">
             Next
           </Button>
         </Row>

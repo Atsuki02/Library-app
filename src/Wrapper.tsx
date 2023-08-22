@@ -20,6 +20,15 @@ const Wrapper = styled.div`
       align-items: center;
       justify-content: space-between;
       gap: 2rem;
+
+      @media (max-width: 768px) {
+        padding: 4rem 2rem;
+        width: 100%;
+        font-size: 1.4rem;
+        font-weight: 600;
+        gap: 2rem;
+        margin: 1rem;
+      }
     `}
 `;
 

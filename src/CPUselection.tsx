@@ -3,11 +3,11 @@ import Row from "./Row";
 import Wrapper from "./Wrapper";
 import Label from "./Label";
 import Select from "./Select";
-
 import { Props } from "./App";
 import { useCpuContext } from "./CpuContext";
 import Button from "./Button";
 import { StyledScreen } from "./GlobalStyles";
+import toast from "react-hot-toast";
 
 const CPUSelection = ({ CpuData, dispatch: statusDispatch }: Props) => {
   const { state, dispatch } = useCpuContext();
@@ -23,6 +23,15 @@ const CPUSelection = ({ CpuData, dispatch: statusDispatch }: Props) => {
   const filterdModels = Array.from(
     new Set(CpuData.filter((CpuData) => CpuData.Brand === state.brand))
   );
+
+  const handleNextStep = () => {
+    if (!state.brand || !state.model) {
+      toast.error("Please select a brand and model.");
+      return;
+    }
+
+    statusDispatch({ type: "nextStep" });
+  };
 
   return (
     <StyledScreen>
@@ -53,10 +62,7 @@ const CPUSelection = ({ CpuData, dispatch: statusDispatch }: Props) => {
           </Label>
         </Row>
         <Row style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            onClick={() => statusDispatch({ type: "nextStep" })}
-            type="small"
-          >
+          <Button onClick={handleNextStep} type="small">
             Next
           </Button>
         </Row>

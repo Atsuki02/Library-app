@@ -8,6 +8,7 @@ import GPUSelection from "./GPUSelection";
 import MemoryCardSelection from "./MemoryCardSelection";
 import StorageSelection from "./StorageSelection";
 import StartScreen from "./StartScreen";
+import { Toaster } from "react-hot-toast";
 
 export type Cpu = {
   Type: string;
@@ -126,6 +127,26 @@ function App() {
         </>
       )}
       {status === "finished" && <YourPC {...componentProps} />}
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{ margin: "8px" }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 3000,
+          },
+          style: {
+            fontSize: "16px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+            backgroundColor: "white",
+            color: "black",
+          },
+        }}
+      />
     </>
   );
 }

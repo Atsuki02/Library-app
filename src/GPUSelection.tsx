@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { Props } from "./App";
 import Button from "./Button";
 import { StyledScreen } from "./GlobalStyles";
@@ -23,6 +24,16 @@ const GPUSelection = ({ GpuData, dispatch: statusDispatch }: Props) => {
   const filterdModels = Array.from(
     new Set(GpuData.filter((GpuData) => GpuData.Brand === state.brand))
   );
+
+  const handleNextStep = () => {
+    if (!state.brand || !state.model) {
+      toast.error("Please select a brand and model.");
+      return;
+    }
+
+    statusDispatch({ type: "nextStep" });
+  };
+
   return (
     <StyledScreen>
       <Wrapper typeof="local">
@@ -58,10 +69,7 @@ const GPUSelection = ({ GpuData, dispatch: statusDispatch }: Props) => {
           >
             Back
           </Button>
-          <Button
-            onClick={() => statusDispatch({ type: "nextStep" })}
-            type="small"
-          >
+          <Button onClick={handleNextStep} type="small">
             Next
           </Button>
         </Row>

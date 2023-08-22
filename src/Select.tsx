@@ -18,6 +18,11 @@ const Select = styled.select`
     border-color: #5c6ac4;
     box-shadow: 0 0 3px #1f2e8c;
   }
+
+  @media (max-width: 768px) {
+    padding: 0.7rem 0.4rem;
+    width: 200px;
+  }
 `;
 
 export default Select;

@@ -16,6 +16,17 @@ const Row = styled.div`
       flex-direction: column;
       align-items: center;
     `}
+
+    ${(props) =>
+    props.typeof === "mobile" &&
+    css`
+      justify-content: flex-start;
+      align-items: center;
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+      }
+    `}
 `;
 
 Row.defaultProps = {

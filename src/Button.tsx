@@ -29,6 +29,12 @@ const StyledButton = styled.button`
       padding: 3rem 4rem;
       font-size: 20px;
       font-weight: 600;
+      @media (max-width: 768px) {
+        height: 14px;
+        padding: 2rem 3rem;
+        font-size: 16px;
+        font-weight: 600;
+      }
     `}
 
   ${(props) =>
@@ -38,6 +44,10 @@ const StyledButton = styled.button`
       padding: 2rem 4rem;
       font-size: 14px;
       font-weight: 400;
+      @media (max-width: 768px) {
+        height: 12px;
+        padding: 2rem 3rem;
+      }
     `}
 `;
 

@@ -7,6 +7,7 @@ import { Props } from "./App";
 import { useMemoryContext } from "./MemoryContext";
 import { StyledScreen } from "./GlobalStyles";
 import Button from "./Button";
+import { toast } from "react-hot-toast";
 
 const MemoryCardSelection = ({
   MemoryData,
@@ -43,6 +44,15 @@ const MemoryCardSelection = ({
 
   const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({ type: "SET_MODEL", payload: e.target.value });
+  };
+
+  const handleNextStep = () => {
+    if (!state.brand || !state.model) {
+      toast.error("Please select all items.");
+      return;
+    }
+
+    statusDispatch({ type: "nextStep" });
   };
 
   return (
@@ -90,10 +100,7 @@ const MemoryCardSelection = ({
           >
             Back
           </Button>
-          <Button
-            onClick={() => statusDispatch({ type: "nextStep" })}
-            type="small"
-          >
+          <Button onClick={handleNextStep} type="small">
             Next
           </Button>
         </Row>

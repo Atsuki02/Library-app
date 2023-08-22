@@ -1,4 +1,5 @@
 import { Props } from "./App";
+import Button from "./Button";
 import { useCpuContext } from "./CpuContext";
 import { StyledScreen } from "./GlobalStyles";
 import { useGpuContext } from "./GpuContext";
@@ -8,7 +9,14 @@ import Row from "./Row";
 import { useStorageContext } from "./StorageContext";
 import Wrapper from "./Wrapper";
 
-const YourPC = ({ CpuData, GpuData, MemoryData, HddData, SsdData }: Props) => {
+const YourPC = ({
+  CpuData,
+  GpuData,
+  MemoryData,
+  HddData,
+  SsdData,
+  dispatch: statusDispatch,
+}: Props) => {
   const { state: cpuState } = useCpuContext();
   const { state: gpuState } = useGpuContext();
   const { state: ramState } = useMemoryContext();
@@ -55,36 +63,58 @@ const YourPC = ({ CpuData, GpuData, MemoryData, HddData, SsdData }: Props) => {
       (storageBenchmark || 0) * 0.5
   );
 
+  function handleRestart() {
+    statusDispatch({ type: "restart" });
+    cpuState.brand = "";
+    cpuState.model = "";
+    gpuState.brand = "";
+    gpuState.model = "";
+    ramState.brand = "";
+    ramState.model = "";
+    ramState.number = 0;
+    storageState.storageType = "";
+    storageState.storage = "";
+    storageState.brand = "";
+    storageState.model = "";
+  }
+
   return (
     <StyledScreen>
       <Wrapper typeof="global">
         <Heading as="h1">Your PC</Heading>
-        <Row>
+        <Row typeof="mobile">
           <Heading as="h3">CPU</Heading>
-          <p>Brand: {cpuState.brand}</p>
-          <p>Model: {cpuState.model}</p>
+          <Heading as="h4">Brand: {cpuState.brand}</Heading>
+          <Heading as="h4">Model: {cpuState.model}</Heading>
         </Row>
-        <Row>
+        <Row typeof="mobile">
           <Heading as="h3">GPU</Heading>
-          <p>Brand: {gpuState.brand}</p>
-          <p>Model: {gpuState.model}</p>
+          <Heading as="h4">Brand: {gpuState.brand}</Heading>
+          <Heading as="h4">Model: {gpuState.model}</Heading>
         </Row>
-        <Row>
+        <Row typeof="mobile">
           <Heading as="h3">RAM</Heading>
-          <p>Brand: {ramState.brand}</p>
-          <p>Model: {ramState.model}</p>
+          <Heading as="h4">Brand: {ramState.brand}</Heading>
+          <Heading as="h4">Model: {ramState.model}</Heading>
         </Row>
-        <Row>
+        <Row typeof="mobile">
           <Heading as="h3">Storage</Heading>
-          <p>Disk: {storageState.storageType}</p>
-          <p>Storage: {storageState.storage}</p>
-          <p>Brand: {storageState.brand}</p>
-          <p>Model: {storageState.model}</p>
+          <Heading as="h4">Disk: {storageState.storageType}</Heading>
+          <Heading as="h4">Storage: {storageState.storage}</Heading>
+          <Heading as="h4">Brand: {storageState.brand}</Heading>
+          <Heading as="h4">Model: {storageState.model}</Heading>
         </Row>
-        <Row>
-          <Heading as="h2">Performance</Heading>
-          <p>Gaming: {totalGamingPerformance}%</p>
-          <p>Work: {totalWorkPerformance}%</p>
+        <Row typeof="mobile">
+          <Heading as="h3">Performance</Heading>
+          <Heading as="h2" style={{ paddingRight: 20, color: "#97e80b" }}>
+            Gaming: {totalGamingPerformance}%
+          </Heading>
+          <Heading as="h2" style={{ color: "#97e80b", paddingRight: 40 }}>
+            Work: {totalWorkPerformance}%
+          </Heading>
+          <Button onClick={handleRestart} type="small">
+            Try again
+          </Button>
         </Row>
       </Wrapper>
     </StyledScreen>
