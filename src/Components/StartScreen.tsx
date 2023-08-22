@@ -1,8 +1,8 @@
 import { Props } from "./App";
-import Button from "./Button";
-import { StyledScreen } from "./GlobalStyles";
-import Heading from "./Heading";
-import Row from "./Row";
+import { StyledScreen } from "../UI/GlobalStyles";
+import Button from "../UI/Button";
+import Heading from "../UI/Heading";
+import Row from "../UI/Row";
 
 type Dispatch = Pick<Props, "dispatch">;
 

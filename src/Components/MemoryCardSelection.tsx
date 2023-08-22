@@ -1,13 +1,13 @@
-import Heading from "./Heading";
-import Label from "./Label";
-import Row from "./Row";
-import Select from "./Select";
-import Wrapper from "./Wrapper";
+import { useMemoryContext } from "../Context/MemoryContext";
+import { StyledScreen } from "../UI/GlobalStyles";
 import { Props } from "./App";
-import { useMemoryContext } from "./MemoryContext";
-import { StyledScreen } from "./GlobalStyles";
-import Button from "./Button";
 import { toast } from "react-hot-toast";
+import Button from "../UI/Button";
+import Heading from "../UI/Heading";
+import Label from "../UI/Label";
+import Row from "../UI/Row";
+import Select from "../UI/Select";
+import Wrapper from "../UI/Wrapper";
 
 const MemoryCardSelection = ({
   MemoryData,
@@ -47,7 +47,7 @@ const MemoryCardSelection = ({
   };
 
   const handleNextStep = () => {
-    if (!state.brand || !state.model) {
+    if (!state.brand || !state.model || !state.number) {
       toast.error("Please select all items.");
       return;
     }

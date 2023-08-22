@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import "./App.css";
-import GlobalStyles from "./GlobalStyles";
-import YourPC from "./YourPC";
 import { useReducer } from "react";
+import { Toaster } from "react-hot-toast";
+import GlobalStyles from "../UI/GlobalStyles";
+import YourPC from "./YourPC";
 import CPUSelection from "./CPUselection";
 import GPUSelection from "./GPUSelection";
 import MemoryCardSelection from "./MemoryCardSelection";
 import StorageSelection from "./StorageSelection";
 import StartScreen from "./StartScreen";
-import { Toaster } from "react-hot-toast";
 
 export type Cpu = {
   Type: string;

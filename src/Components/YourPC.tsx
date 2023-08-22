@@ -1,13 +1,13 @@
 import { Props } from "./App";
-import Button from "./Button";
-import { useCpuContext } from "./CpuContext";
-import { StyledScreen } from "./GlobalStyles";
-import { useGpuContext } from "./GpuContext";
-import Heading from "./Heading";
-import { useMemoryContext } from "./MemoryContext";
-import Row from "./Row";
-import { useStorageContext } from "./StorageContext";
-import Wrapper from "./Wrapper";
+import { useCpuContext } from "../Context/CpuContext";
+import { StyledScreen } from "../UI/GlobalStyles";
+import { useGpuContext } from "../Context/GpuContext";
+import { useMemoryContext } from "../Context/MemoryContext";
+import { useStorageContext } from "../Context/StorageContext";
+import Button from "../UI/Button";
+import Heading from "../UI/Heading";
+import Row from "../UI/Row";
+import Wrapper from "../UI/Wrapper";
 
 const YourPC = ({
   CpuData,
@@ -109,7 +109,14 @@ const YourPC = ({
           <Heading as="h2" style={{ paddingRight: 20, color: "#97e80b" }}>
             Gaming: {totalGamingPerformance}%
           </Heading>
-          <Heading as="h2" style={{ color: "#97e80b", paddingRight: 40 }}>
+          <Heading
+            as="h2"
+            style={{
+              color: "#97e80b",
+              paddingRight: 40,
+              paddingBottom: window.innerWidth > 768 ? "0px" : "20px",
+            }}
+          >
             Work: {totalWorkPerformance}%
           </Heading>
           <Button onClick={handleRestart} type="small">

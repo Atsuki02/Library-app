@@ -1,12 +1,12 @@
-import Heading from "./Heading";
-import Row from "./Row";
-import Wrapper from "./Wrapper";
-import Label from "./Label";
-import Select from "./Select";
+import { useCpuContext } from "../Context/CpuContext";
 import { Props } from "./App";
-import { useCpuContext } from "./CpuContext";
-import Button from "./Button";
-import { StyledScreen } from "./GlobalStyles";
+import { StyledScreen } from "../UI/GlobalStyles";
+import Button from "../UI/Button";
+import Heading from "../UI/Heading";
+import Label from "../UI/Label";
+import Row from "../UI/Row";
+import Select from "../UI/Select";
+import Wrapper from "../UI/Wrapper";
 import toast from "react-hot-toast";
 
 const CPUSelection = ({ CpuData, dispatch: statusDispatch }: Props) => {

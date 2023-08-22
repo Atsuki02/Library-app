@@ -1,14 +1,14 @@
 import { toast } from "react-hot-toast";
 import { Props } from "./App";
-import Button from "./Button";
-import { StyledScreen } from "./GlobalStyles";
-import { useGpuContext } from "./GpuContext";
-import Heading from "./Heading";
-import Label from "./Label";
-import Row from "./Row";
-import Select from "./Select";
+import { useGpuContext } from "../Context/GpuContext";
+import { StyledScreen } from "../UI/GlobalStyles";
+import Wrapper from "../UI/Wrapper";
+import Heading from "../UI/Heading";
+import Row from "../UI/Row";
+import Label from "../UI/Label";
+import Select from "../UI/Select";
+import Button from "../UI/Button";
 
-import Wrapper from "./Wrapper";
 
 const GPUSelection = ({ GpuData, dispatch: statusDispatch }: Props) => {
   const { state, dispatch } = useGpuContext();

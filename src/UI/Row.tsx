@@ -24,7 +24,7 @@ const Row = styled.div`
       align-items: center;
       @media (max-width: 768px) {
         flex-direction: column;
-        align-items: center;
+        align-items: start;
       }
     `}
 `;

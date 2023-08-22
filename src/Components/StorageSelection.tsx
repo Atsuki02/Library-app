@@ -1,13 +1,13 @@
-import Heading from "./Heading";
-import Label from "./Label";
-import Row from "./Row";
-import Select from "./Select";
-import Wrapper from "./Wrapper";
 import { Props } from "./App";
-import { useStorageContext } from "./StorageContext";
-import { StyledScreen } from "./GlobalStyles";
-import Button from "./Button";
 import { toast } from "react-hot-toast";
+import { useStorageContext } from "../Context/StorageContext";
+import { StyledScreen } from "../UI/GlobalStyles";
+import Heading from "../UI/Heading";
+import Label from "../UI/Label";
+import Row from "../UI/Row";
+import Button from "../UI/Button";
+import Wrapper from "../UI/Wrapper";
+import Select from "../UI/Select";
 
 const StorageSelection = ({
   HddData,
@@ -57,12 +57,12 @@ const StorageSelection = ({
   );
 
   const handleNextStep = () => {
-    if (!state.brand || !state.model) {
+    if (!state.brand || !state.model || !state.storageType || !state.storage) {
       toast.error("Please select all items.");
       return;
     }
 
-    statusDispatch({ type: "nextStep" });
+    statusDispatch({ type: "finish" });
   };
 
   return (

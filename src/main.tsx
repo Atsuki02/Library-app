@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import { CpuProvider } from "./CpuContext.tsx";
-import { GpuProvider } from "./GpuContext.tsx";
-import { MemoryProvider } from "./MemoryContext.tsx";
-import { StorageProvider } from "./StorageContext.tsx";
+import App from "./Components/App.tsx";
+import { CpuProvider } from "./Context/CpuContext.tsx";
+import { GpuProvider } from "./Context/GpuContext.tsx";
+import { MemoryProvider } from "./Context/MemoryContext.tsx";
+import { StorageProvider } from "./Context/StorageContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
